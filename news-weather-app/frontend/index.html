@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News & Weather Aggregator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            "yellow-accent": "#F4C430",
+            "soft-gray": "#F2F3F5",
+            "card-hover-gray": "#E5E5E5",
+            "primary-text": "#111111",
+            "secondary-text": "#666666",
+            "muted-gray": "#A0A0A0",
+            "dark-background": "#0D0D0D",
+            "dark-surface": "#1A1A1A",
+            "dark-muted-text": "#BDBDBD",
+          },
+          fontFamily: {
+            display: ["Inter", "sans-serif"],
+            sans: ["Inter", "sans-serif"],
+          },
+          borderRadius: {
+            DEFAULT: "0.75rem", // 12px
+          },
+        },
+      },
+    }
+  </script>
+</head>
+
+<body class="bg-soft-gray text-primary-text antialiased font-sans">
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>
