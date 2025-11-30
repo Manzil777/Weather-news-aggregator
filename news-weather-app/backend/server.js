@@ -24,10 +24,15 @@ const limiter = rateLimit({
 app.use(limiter);
 
 // Routes
+const weatherRoutes = require('./routes/weatherRoutes');
+const pinRoutes = require('./routes/pinRoutes');
+const aiRoutes = require('./routes/aiRoutes');
+
 app.use('/api/news', require('./routes/newsRoutes'));
-app.use('/api/weather', require('./routes/weatherRoutes'));
+app.use('/api/weather', weatherRoutes);
 app.use('/api/articles', require('./routes/articleRoutes'));
-app.use('/api/pins', require('./routes/pinRoutes'));
+app.use('/api/pins', pinRoutes);
+app.use('/api/ai', aiRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running...');

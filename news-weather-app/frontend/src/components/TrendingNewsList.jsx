@@ -44,7 +44,7 @@ const TrendingNewsList = () => {
     }
 
     return (
-        <div className="bg-gray-100 dark:bg-slate-900 rounded-t-3xl p-6 md:p-8 text-gray-900 dark:text-white mt-8 transition-colors duration-300">
+        <div className="bg-black rounded-t-3xl p-6 md:p-8 text-white mt-8 transition-colors duration-300">
             <div className="flex items-center justify-between mb-6">
                 <h2 className="text-2xl font-bold"># Trending Now</h2>
             </div>

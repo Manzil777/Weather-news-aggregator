@@ -1,3 +1,4 @@
+
 import React from 'react';
 
 const NewsCard = ({ article, className = '' }) => {
@@ -17,6 +18,36 @@ const NewsCard = ({ article, className = '' }) => {
         return 'Just now';
     };
 
+    const [summary, setSummary] = React.useState(null);
+    const [loading, setLoading] = React.useState(false);
+    const [showSummary, setShowSummary] = React.useState(false);
+
+    const handleSummarize = async (e) => {
+        e.stopPropagation();
+        if (summary) {
+            setShowSummary(!showSummary);
+            return;
+        }
+
+        setLoading(true);
+        try {
+            const response = await fetch('http://localhost:4000/api/ai/summarize', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: article.description || article.content || article.title }),
+            });
+            const data = await response.json();
+            setSummary(data.summary);
+            setShowSummary(true);
+        } catch (error) {
+            console.error('Failed to summarize:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div
             className={`relative rounded-xl overflow-hidden group cursor-pointer ${className}`}
@@ -28,9 +59,36 @@ const NewsCard = ({ article, className = '' }) => {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
-            <div className="absolute bottom-0 left-0 p-4 text-white w-full">
+
+            {/* Summary Overlay */}
+            {showSummary && (
+                <div className="absolute inset-0 bg-black/90 p-4 text-white overflow-y-auto z-20" onClick={(e) => e.stopPropagation()}>
+                    <div className="flex justify-between items-center mb-2">
+                        <h4 className="font-bold text-sm text-yellow-400">AI Summary</h4>
+                        <button onClick={(e) => { e.stopPropagation(); setShowSummary(false); }} className="text-gray-400 hover:text-white">
+                            ✕
+                        </button>
+                    </div>
+                    <p className="text-xs leading-relaxed whitespace-pre-line">{summary}</p>
+                </div>
+            )}
+
+            <div className="absolute bottom-0 left-0 p-4 text-white w-full z-10">
                 <h3 className="font-semibold text-base leading-tight line-clamp-2 mb-1">{article.title}</h3>
-                <p className="text-xs text-gray-300">{timeAgo(article.publishedAt)}</p>
+                <div className="flex justify-between items-end">
+                    <p className="text-xs text-gray-300">{timeAgo(article.publishedAt)}</p>
+                    <button
+                        onClick={handleSummarize}
+                        disabled={loading}
+                        className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white text-xs px-2 py-1 rounded-lg transition-colors flex items-center gap-1"
+                    >
+                        {loading ? (
+                            <span className="animate-spin">⟳</span>
+                        ) : (
+                            <span>✨ Summarize</span>
+                        )}
+                    </button>
+                </div>
             </div>
         </div>
     );
