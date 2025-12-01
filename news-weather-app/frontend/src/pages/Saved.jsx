@@ -1,36 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { fetchSavedArticles, deleteArticle } from '../api';
-import { useToast } from '../context/ToastContext';
+import React from 'react';
+import { useSaved } from '../context/SavedContext';
 import { Trash2, ExternalLink, Calendar } from 'lucide-react';
 
 const Saved = () => {
-    const [articles, setArticles] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const { addToast } = useToast();
+    const { savedArticles, loading, removeArticle } = useSaved();
 
-    const loadSaved = async () => {
-        try {
-            const response = await fetchSavedArticles();
-            setArticles(response.data);
-        } catch (error) {
-            addToast('Failed to load saved articles', 'error');
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        loadSaved();
-    }, []);
-
-    const handleDelete = async (id) => {
-        try {
-            await deleteArticle(id);
-            setArticles(articles.filter(a => a.id !== id));
-            addToast('Article removed', 'success');
-        } catch (error) {
-            addToast('Failed to remove article', 'error');
-        }
+    const handleDelete = (id) => {
+        removeArticle(id);
     };
 
     return (
@@ -39,13 +15,13 @@ const Saved = () => {
 
             {loading ? (
                 <div className="text-center py-10 text-secondary-text">Loading...</div>
-            ) : articles.length === 0 ? (
+            ) : savedArticles.length === 0 ? (
                 <div className="text-center py-20 bg-white rounded-xl border border-soft-gray">
                     <p className="text-secondary-text text-lg">You haven't saved any articles yet.</p>
                 </div>
             ) : (
                 <div className="grid gap-4">
-                    {articles.map((article) => (
+                    {savedArticles.map((article) => (
                         <div key={article.id} className="bg-white p-4 rounded-xl border border-soft-gray flex gap-4 hover:border-yellow-accent/50 transition-colors shadow-sm">
                             {article.urlToImage && (
                                 <img

@@ -10,8 +10,8 @@ export default {
                 'dark-bg': '#0f172a',
                 'dark-card': '#1e293b',
                 'dark-muted': '#94a3b8',
-                'primary': '#3b82f6',
-                'primary-hover': '#2563eb',
+                'primary': '#eab308', // yellow-500
+                'primary-hover': '#ca8a04', // yellow-600
                 // Legacy colors migrated from index.html
                 "yellow-accent": "#F4C430",
                 "soft-gray": "#F2F3F5",

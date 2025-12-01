@@ -17,6 +17,9 @@ const Header = () => {
                     <Link to="/" className={`text-sm transition-colors ${isActive('/')}`}>
                         Dashboard
                     </Link>
+                    <Link to="/foryou" className={`text-sm transition-colors ${isActive('/foryou')}`}>
+                        For You
+                    </Link>
                     <Link to="/news" className={`text-sm transition-colors ${isActive('/news')}`}>
                         News
                     </Link>

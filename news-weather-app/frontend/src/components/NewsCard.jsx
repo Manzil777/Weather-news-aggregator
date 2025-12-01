@@ -1,8 +1,18 @@
 
 import React from 'react';
 
+import { useSettings } from '../context/SettingsContext';
+import { useSaved } from '../context/SavedContext';
+import { Bookmark } from 'lucide-react';
+
 const NewsCard = ({ article, className = '' }) => {
+    const { trackAction } = useSettings();
     if (!article) return null;
+
+    const handleClick = () => {
+        trackAction({ type: 'click', source: article.source.name });
+        window.open(article.url, '_blank');
+    };
 
     const timeAgo = (dateString) => {
         const date = new Date(dateString);
@@ -48,10 +58,23 @@ const NewsCard = ({ article, className = '' }) => {
         }
     };
 
+    const { isArticleSaved, saveArticle, removeArticle, getSavedArticleId } = useSaved();
+    const isSaved = isArticleSaved(article.url);
+
+    const handleBookmark = (e) => {
+        e.stopPropagation();
+        if (isSaved) {
+            const id = getSavedArticleId(article.url);
+            if (id) removeArticle(id);
+        } else {
+            saveArticle(article);
+        }
+    };
+
     return (
         <div
             className={`relative rounded-xl overflow-hidden group cursor-pointer ${className}`}
-            onClick={() => window.open(article.url, '_blank')}
+            onClick={handleClick}
         >
             <img
                 src={article.urlToImage || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop'}
@@ -59,6 +82,14 @@ const NewsCard = ({ article, className = '' }) => {
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+
+            {/* Bookmark Button */}
+            <button
+                onClick={handleBookmark}
+                className="absolute top-3 right-3 p-2 bg-black/40 hover:bg-black/60 backdrop-blur-sm rounded-full text-white transition-colors z-20"
+            >
+                <Bookmark size={18} className={isSaved ? "fill-yellow-400 text-yellow-400" : ""} />
+            </button>
 
             {/* Summary Overlay */}
             {showSummary && (

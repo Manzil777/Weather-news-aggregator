@@ -15,6 +15,7 @@ const connectDB = async () => {
         // Import models to ensure they are registered
         require('../models/Pin');
         require('../models/WeatherCache');
+        require('../models/User');
 
         await sequelize.sync(); // Sync models
         console.log('Database Synced.');
