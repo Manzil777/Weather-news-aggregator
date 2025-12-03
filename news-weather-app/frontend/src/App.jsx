@@ -14,8 +14,8 @@ function App() {
   return (
     <Router>
       <SettingsProvider>
-        <SavedProvider>
-          <ToastProvider>
+        <ToastProvider>
+          <SavedProvider>
             <Layout>
               <Routes>
                 <Route path="/" element={<Home />} />
@@ -26,8 +26,8 @@ function App() {
                 <Route path="/settings" element={<Settings />} />
               </Routes>
             </Layout>
-          </ToastProvider>
-        </SavedProvider>
+          </SavedProvider>
+        </ToastProvider>
       </SettingsProvider>
     </Router>
   );

@@ -17,6 +17,17 @@ const ForYou = () => {
 
     const categoriesList = ['business', 'entertainment', 'general', 'health', 'science', 'sports', 'technology'];
 
+    const getGreeting = () => {
+        const hour = new Date().getHours();
+        if (hour < 12) return 'Good Morning';
+        if (hour < 18) return 'Good Afternoon';
+        return 'Good Evening';
+    };
+
+    const getDate = () => {
+        return new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    };
+
     const fetchFeed = async () => {
         setLoading(true);
         setError(null);
@@ -61,8 +72,11 @@ const ForYou = () => {
         <div className="container mx-auto p-4 md:p-8 max-w-7xl">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white">For You</h1>
-                    <p className="text-gray-500 dark:text-gray-400">Personalized news based on your interests</p>
+                    <p className="text-sm font-medium text-yellow-600 dark:text-yellow-400 uppercase tracking-wider mb-1">{getDate()}</p>
+                    <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                        {getGreeting()}
+                    </h1>
+                    <p className="text-gray-500 dark:text-gray-400">Here's what we found for you today</p>
                 </div>
                 <button
                     onClick={() => setShowSettings(!showSettings)}
@@ -130,10 +144,41 @@ const ForYou = () => {
                     <Loader className="animate-spin text-yellow-500" size={40} />
                 </div>
             ) : articles.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {articles.map((article, index) => (
-                        <NewsCard key={index} article={article} />
-                    ))}
+                <div className="space-y-8">
+                    {/* Featured Article */}
+                    {articles[0] && (
+                        <div className="relative rounded-2xl overflow-hidden group cursor-pointer h-[400px] md:h-[500px]" onClick={() => window.open(articles[0].url, '_blank')}>
+                            <img
+                                src={articles[0].urlToImage || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop'}
+                                alt={articles[0].title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div>
+                            <div className="absolute bottom-0 left-0 p-6 md:p-10 text-white max-w-4xl">
+                                <span className="inline-block px-3 py-1 bg-yellow-500 text-black text-xs font-bold rounded-full mb-4 uppercase tracking-wide">
+                                    Top Story
+                                </span>
+                                <h2 className="text-2xl md:text-4xl font-bold mb-4 leading-tight group-hover:text-yellow-400 transition-colors">
+                                    {articles[0].title}
+                                </h2>
+                                <p className="text-gray-300 line-clamp-2 md:line-clamp-3 text-sm md:text-lg mb-4 max-w-2xl">
+                                    {articles[0].description}
+                                </p>
+                                <div className="flex items-center gap-4 text-sm text-gray-400">
+                                    <span>{articles[0].source.name}</span>
+                                    <span>•</span>
+                                    <span>{new Date(articles[0].publishedAt).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Remaining Articles Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {articles.slice(1).map((article, index) => (
+                            <NewsCard key={index} article={article} />
+                        ))}
+                    </div>
                 </div>
             ) : error ? (
                 <div className="text-center py-20 text-red-500">

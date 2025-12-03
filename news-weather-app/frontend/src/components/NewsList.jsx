@@ -1,4 +1,4 @@
-import ArticleCard from './ArticleCard';
+import NewsCard from './NewsCard';
 
 const NewsList = ({ articles }) => {
     if (!articles || articles.length === 0) {
@@ -8,7 +8,7 @@ const NewsList = ({ articles }) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {articles.map((article, index) => (
-                <ArticleCard key={index} article={article} />
+                <NewsCard key={index} article={article} />
             ))}
         </div>
     );

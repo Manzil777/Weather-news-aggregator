@@ -1,8 +1,45 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: 'Galena Pro';
+  src: url('./assets/fonts/galena-pro-regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --font-display: "Galena Pro", "Inter", "sans-serif";
+  --font-sans: "Inter", "sans-serif";
+
+  /* Define colors as variables if needed, or rely on v4 defaults/config */
+  --color-primary: #eab308;
+  --color-primary-hover: #ca8a04;
+  --color-yellow-accent: #F4C430;
+  --color-soft-gray: #F2F3F5;
+  --color-card-hover-gray: #E5E5E5;
+  --color-primary-text: #111111;
+  --color-secondary-text: #666666;
+  --color-muted-gray: #A0A0A0;
+  --color-dark-background: #0D0D0D;
+  --color-dark-surface: #1A1A1A;
+  --color-dark-muted-text: #BDBDBD;
+  --color-dark-bg: #0f172a;
+  --color-dark-card: #1e293b;
+  --color-dark-muted: #94a3b8;
+}
+
 @layer base {
   body {
-    @apply bg-gray-50 text-gray-900 dark:bg-slate-900 dark:text-slate-50 transition-colors duration-300 min-h-screen;
+    @apply text-gray-900 dark:text-slate-50 transition-colors duration-300 min-h-screen;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
   }
 }
 
