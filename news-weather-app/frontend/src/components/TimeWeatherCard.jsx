@@ -1,63 +1,69 @@
 import React, { useState, useEffect } from 'react';
-import { CloudRain, Cloud, Sun, CloudLightning, CloudSnow, Wind } from 'lucide-react';
+import { Cloud, Droplets, Wind, Thermometer } from 'lucide-react';
 
 const TimeWeatherCard = ({ weather }) => {
-    const [currentTime, setCurrentTime] = useState(new Date());
+    const [time, setTime] = useState(new Date());
 
     useEffect(() => {
-        const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+        const timer = setInterval(() => setTime(new Date()), 1000);
         return () => clearInterval(timer);
     }, []);
 
-    const formatTime = (date) => {
-        let hours = date.getHours();
-        const minutes = date.getMinutes();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        const strMinutes = minutes < 10 ? '0' + minutes : minutes;
-        return { time: `${hours < 10 ? '0' + hours : hours}:${strMinutes}`, ampm };
-    };
-
-    const { time, ampm } = formatTime(currentTime);
-    const dateStr = currentTime.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' });
-
-    const getWeatherIcon = (description) => {
-        if (!description) return <Sun size={48} className="text-gray-400 dark:text-gray-500" />;
-        const desc = description.toLowerCase();
-        if (desc.includes('rain')) return <CloudRain size={48} className="text-gray-400 dark:text-gray-500" />;
-        if (desc.includes('cloud')) return <Cloud size={48} className="text-gray-400 dark:text-gray-500" />;
-        if (desc.includes('snow')) return <CloudSnow size={48} className="text-gray-400 dark:text-gray-500" />;
-        if (desc.includes('storm') || desc.includes('thunder')) return <CloudLightning size={48} className="text-gray-400 dark:text-gray-500" />;
-        if (desc.includes('wind')) return <Wind size={48} className="text-gray-400 dark:text-gray-500" />;
-        return <Sun size={48} className="text-gray-400 dark:text-gray-500" />;
-    };
+    if (!weather) return (
+        <div className="glass-panel h-full rounded-3xl p-8 flex items-center justify-center animate-pulse">
+            <div className="text-white/50">Loading weather data...</div>
+        </div>
+    );
 
     return (
-        <div className="flex flex-col justify-center space-y-4 text-gray-900 dark:text-white h-full p-4 transition-colors duration-300">
-            <p className="text-base text-gray-600 dark:text-gray-400">{dateStr}</p>
-            <div className="flex items-end">
-                <h1 className="text-6xl md:text-7xl lg:text-8xl font-light tracking-tighter leading-none">{time}</h1>
-                <span className="text-xl md:text-2xl font-medium ml-2 mb-2">{ampm}</span>
+        <div className="glass-panel h-full rounded-3xl p-8 flex flex-col justify-between relative overflow-hidden group">
+            {/* Decorative background glow */}
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent-primary/20 rounded-full blur-3xl -mr-10 -mt-10 transition-opacity group-hover:opacity-70"></div>
+
+            <div>
+                <h2 className="text-6xl font-display font-bold tracking-tighter text-white mb-2">
+                    {time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </h2>
+                <p className="text-lg text-white/60 font-medium">
+                    {time.toLocaleDateString([], { weekday: 'long', month: 'long', day: 'numeric' })}
+                </p>
             </div>
 
-            {weather ? (
-                <div className="flex items-center space-x-4 mt-4">
-                    {getWeatherIcon(weather.weather[0].description)}
+            <div className="mt-8">
+                <div className="flex items-center justify-between mb-6">
                     <div>
-                        <p className="text-2xl font-semibold">{Math.round(weather.main.temp)}°</p>
-                        <p className="text-gray-600 dark:text-gray-400 capitalize">{weather.weather[0].description}</p>
+                        <div className="text-5xl font-bold text-white mb-1">
+                            {Math.round(weather.main.temp)}°
+                        </div>
+                        <div className="text-white/80 text-lg capitalize flex items-center gap-2">
+                            {weather.weather[0].description}
+                        </div>
+                    </div>
+                    <img
+                        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@4x.png`}
+                        alt={weather.weather[0].description}
+                        className="w-24 h-24 object-contain drop-shadow-lg"
+                    />
+                </div>
+
+                <div className="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
+                    <div className="flex flex-col items-center text-center">
+                        <Wind size={20} className="text-accent-primary mb-2" />
+                        <span className="text-sm text-white/60">Wind</span>
+                        <span className="font-semibold text-white">{weather.wind.speed} m/s</span>
+                    </div>
+                    <div className="flex flex-col items-center text-center">
+                        <Droplets size={20} className="text-accent-primary mb-2" />
+                        <span className="text-sm text-white/60">Humidity</span>
+                        <span className="font-semibold text-white">{weather.main.humidity}%</span>
+                    </div>
+                    <div className="flex flex-col items-center text-center">
+                        <Thermometer size={20} className="text-accent-primary mb-2" />
+                        <span className="text-sm text-white/60">Feels Like</span>
+                        <span className="font-semibold text-white">{Math.round(weather.main.feels_like)}°</span>
                     </div>
                 </div>
-            ) : (
-                <div className="flex items-center space-x-4 mt-4 animate-pulse">
-                    <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
-                    <div className="space-y-2">
-                        <div className="w-8 h-6 bg-gray-200 rounded"></div>
-                        <div className="w-16 h-4 bg-gray-200 rounded"></div>
-                    </div>
-                </div>
-            )}
+            </div>
         </div>
     );
 };

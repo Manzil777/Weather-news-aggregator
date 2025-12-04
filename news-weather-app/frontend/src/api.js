@@ -16,5 +16,6 @@ export const deleteArticle = (id) => api.delete(`/articles/${id}`);
 export const fetchPins = () => api.get('/pins');
 export const addPin = (pin) => api.post('/pins', pin);
 export const deletePin = (id) => api.delete(`/pins/${id}`);
+export const summarizeArticle = (text) => api.post('/ai/summarize', { text });
 
 export default api;

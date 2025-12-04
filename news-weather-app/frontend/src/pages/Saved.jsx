@@ -12,7 +12,7 @@ const Saved = () => {
     return (
         <div className="space-y-8 container mx-auto p-4 md:p-8 max-w-5xl">
             <div className="flex items-center gap-3 mb-8">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Saved Articles</h1>
+                <h1 className="text-4xl font-bold text-white font-display">Saved Articles</h1>
             </div>
 
             {loading ? (
@@ -20,59 +20,58 @@ const Saved = () => {
                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
                 </div>
             ) : savedArticles.length === 0 ? (
-                <div className="text-center py-24 bg-white dark:bg-slate-800 rounded-3xl border border-dashed border-gray-200 dark:border-gray-700">
-                    <div className="inline-flex p-4 rounded-full bg-gray-50 dark:bg-slate-700/50 mb-4">
-                        <Calendar className="text-gray-400" size={32} />
+                <div className="text-center py-20">
+                    <div className="bg-white/5 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Bookmark size={32} className="text-white/40" />
                     </div>
-                    <p className="text-gray-500 dark:text-gray-400 text-lg font-medium">No saved articles yet</p>
-                    <p className="text-gray-400 dark:text-gray-500 text-sm mt-1">Articles you bookmark will appear here</p>
+                    <p className="text-gray-400 text-lg">No saved articles yet.</p>
+                    <p className="text-gray-500 text-sm mt-2">Articles you bookmark will appear here.</p>
                 </div>
             ) : (
                 <div className="grid gap-6">
                     {savedArticles.map((article) => (
-                        <div key={article.id} className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-gray-100 dark:border-gray-700 hover:shadow-lg hover:border-gray-200 dark:hover:border-gray-600 transition-all duration-300 flex flex-col sm:flex-row gap-6 group">
-                            {article.urlToImage && (
-                                <div className="shrink-0 overflow-hidden rounded-xl">
-                                    <img
-                                        src={article.urlToImage}
-                                        alt={article.title}
-                                        className="w-full sm:w-48 h-48 sm:h-32 object-cover group-hover:scale-105 transition-transform duration-500"
-                                    />
-                                </div>
-                            )}
-                            <div className="flex flex-col flex-grow justify-between">
-                                <div>
-                                    <div className="flex flex-wrap items-center gap-3 mb-3">
-                                        <span className="px-3 py-1 rounded-full bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 text-xs font-semibold tracking-wide uppercase">
-                                            {article.sourceName}
-                                        </span>
-                                        <span className="flex items-center gap-1.5 text-xs font-medium text-gray-400 dark:text-gray-500">
-                                            <Calendar size={12} />
-                                            {new Date(article.publishedAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
-                                        </span>
-                                    </div>
+                        <div key={article.id} className="glass-panel p-6 rounded-3xl flex flex-col md:flex-row gap-6 group hover:bg-white/10 transition-all border border-white/10">
+                            <div className="w-full md:w-64 h-48 md:h-auto flex-shrink-0 rounded-2xl overflow-hidden relative">
+                                <img
+                                    src={article.urlToImage || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2070&auto=format&fit=crop'}
+                                    alt={article.title}
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                />
+                                <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors" />
+                            </div>
 
-                                    <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 leading-tight transition-colors">
-                                        {article.title}
-                                    </h3>
+                            <div className="flex-grow flex flex-col justify-center">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <span className="px-3 py-1 bg-yellow-500/20 text-yellow-200 text-xs font-bold rounded-full border border-yellow-500/30 uppercase tracking-wider">
+                                        {article.sourceName}
+                                    </span>
+                                    <span className="text-gray-400 text-sm flex items-center gap-1">
+                                        <Calendar size={12} />
+                                        {new Date(article.publishedAt).toLocaleDateString()}
+                                    </span>
                                 </div>
 
-                                <div className="flex items-center gap-6 mt-4 pt-4 border-t border-gray-50 dark:border-gray-700/50">
+                                <h2 className="text-2xl font-bold text-white mb-3 leading-tight group-hover:text-yellow-400 transition-colors font-display">
+                                    {article.title}
+                                </h2>
+
+                                <div className="flex items-center gap-6 mt-4">
                                     <a
                                         href={article.url}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors"
+                                        className="flex items-center gap-2 text-white font-medium hover:text-yellow-400 transition-colors group/link"
                                     >
-                                        Read Article <ExternalLink size={14} />
+                                        Read Article
+                                        <ExternalLink size={16} className="group-hover/link:translate-x-1 transition-transform" />
                                     </a>
 
                                     <button
-                                        onClick={() => handleDelete(article.id)}
-                                        className="flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-red-500 transition-colors ml-auto sm:ml-0"
+                                        onClick={() => removeArticle(article.id)}
+                                        className="flex items-center gap-2 text-gray-400 hover:text-red-400 transition-colors text-sm"
                                     >
-                                        <Trash2 size={14} />
-                                        <span className="hidden sm:inline">Remove</span>
+                                        <Trash2 size={16} />
+                                        Remove
                                     </button>
                                 </div>
                             </div>

@@ -37,7 +37,7 @@ const News = () => {
     return (
         <div className="space-y-6 container mx-auto p-4 md:p-8 max-w-7xl">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                <h1 className="text-3xl font-bold text-gray-900 dark:text-white">News Feed</h1>
+                <h1 className="text-3xl font-display font-bold text-white">News Feed</h1>
 
                 <form onSubmit={handleSearch} className="relative w-full md:w-96">
                     <input
@@ -45,9 +45,9 @@ const News = () => {
                         placeholder="Search news..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-gray-700 rounded-full py-2 px-4 pl-10 text-gray-900 dark:text-white focus:outline-none focus:border-yellow-accent shadow-sm transition-colors"
+                        className="w-full bg-white/5 border border-white/10 rounded-full py-2 px-4 pl-10 text-white placeholder-gray-400 focus:outline-none focus:border-white/30 focus:bg-white/10 shadow-sm transition-all backdrop-blur-md"
                     />
-                    <Search className="absolute left-3 top-2.5 text-gray-500 dark:text-gray-400" size={18} />
+                    <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
                 </form>
             </div>
 
@@ -57,9 +57,9 @@ const News = () => {
                     <button
                         key={cat}
                         onClick={() => setCategory(cat)}
-                        className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize transition-colors whitespace-nowrap ${category === cat
-                            ? 'bg-yellow-accent text-black'
-                            : 'bg-white dark:bg-slate-800 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700 border border-gray-200 dark:border-gray-700'
+                        className={`px-4 py-1.5 rounded-full text-sm font-medium capitalize transition-all whitespace-nowrap ${category === cat
+                            ? 'bg-white text-black font-bold'
+                            : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white border border-white/10'
                             }`}
                     >
                         {cat}

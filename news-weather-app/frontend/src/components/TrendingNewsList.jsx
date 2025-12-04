@@ -1,59 +1,63 @@
 import React, { useEffect, useState } from 'react';
 import { fetchNews } from '../api';
-import NewsCard from './NewsCard';
-import { Loader } from 'lucide-react';
+import { TrendingUp, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const TrendingNewsList = () => {
-    const [articles, setArticles] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    const [trending, setTrending] = useState([]);
 
     useEffect(() => {
         const loadTrending = async () => {
             try {
-                // Fetch top headlines for trending section
-                // Using 'general' category or just default top headlines
-                const response = await fetchNews();
-                // We want 8-12 articles. Let's take 8.
-                // Filter out articles without images for better UI
-                const validArticles = response.data.articles
-                    .filter(a => a.urlToImage)
-                    .slice(0, 8);
-                setArticles(validArticles);
-            } catch (err) {
-                console.error("Failed to fetch trending news:", err);
-                setError("Failed to load trending news.");
-            } finally {
-                setLoading(false);
+                const res = await fetchNews('technology'); // Using tech news as trending for now
+                setTrending(res.data.articles.slice(0, 5));
+            } catch (error) {
+                console.error('Error loading trending news:', error);
             }
         };
-
         loadTrending();
     }, []);
 
-    if (loading) {
-        return (
-            <div className="flex justify-center py-12">
-                <Loader className="animate-spin text-primary" size={32} />
-            </div>
-        );
-    }
-
-    if (error) {
-        return <div className="text-red-500 py-8">{error}</div>;
-    }
-
     return (
-        <div className="bg-black rounded-t-3xl p-6 md:p-8 text-white mt-8 transition-colors duration-300">
+        <div className="glass-panel rounded-3xl p-6 h-full flex flex-col">
             <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold"># Trending Now</h2>
+                <div className="flex items-center gap-2">
+                    <div className="p-2 bg-accent-secondary/20 rounded-full text-accent-secondary">
+                        <TrendingUp size={20} />
+                    </div>
+                    <h2 className="text-xl font-display font-bold text-white">Trending</h2>
+                </div>
+                <Link to="/news" className="text-sm text-accent-primary hover:text-white transition-colors">
+                    View All
+                </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {articles.map((article, index) => (
-                    <div key={index} className="aspect-square">
-                        <NewsCard article={article} className="h-full w-full" />
-                    </div>
+            <div className="flex-grow flex flex-col justify-between gap-2">
+                {trending.map((article, index) => (
+                    <a
+                        key={index}
+                        href={article.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-start gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors"
+                    >
+                        <span className="flex-shrink-0 w-6 text-center font-display font-bold text-lg text-white/40 group-hover:text-accent-primary transition-colors mt-0.5">
+                            {index + 1}
+                        </span>
+                        <div className="flex-grow min-w-0">
+                            <h4 className="text-base font-semibold text-white/90 group-hover:text-white line-clamp-2 leading-snug mb-1">
+                                {article.title}
+                            </h4>
+                            <div className="flex items-center gap-2 text-xs text-white/50">
+                                <span>{article.source.name}</span>
+                                <span>•</span>
+                                <span>{new Date(article.publishedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                            </div>
+                        </div>
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity text-white/60 mt-1">
+                            <ArrowRight size={16} />
+                        </div>
+                    </a>
                 ))}
             </div>
         </div>

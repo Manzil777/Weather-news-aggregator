@@ -72,15 +72,15 @@ const ForYou = () => {
         <div className="container mx-auto p-4 md:p-8 max-w-7xl">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <p className="text-sm font-medium text-yellow-600 dark:text-yellow-400 uppercase tracking-wider mb-1">{getDate()}</p>
-                    <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+                    <p className="text-sm font-medium text-yellow-400 uppercase tracking-wider mb-1">{getDate()}</p>
+                    <h1 className="text-4xl font-bold text-white mb-2 font-display">
                         {getGreeting()}
                     </h1>
-                    <p className="text-gray-500 dark:text-gray-400">Here's what we found for you today</p>
+                    <p className="text-gray-300">Here's what we found for you today</p>
                 </div>
                 <button
                     onClick={() => setShowSettings(!showSettings)}
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-slate-700 rounded-full hover:bg-gray-200 dark:hover:bg-slate-600 transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-white/10 text-white rounded-full hover:bg-white/20 transition-colors border border-white/5 backdrop-blur-md"
                 >
                     <Settings size={18} />
                     Customize
@@ -89,19 +89,19 @@ const ForYou = () => {
 
             {/* Settings Panel */}
             {showSettings && (
-                <div className="bg-white dark:bg-slate-800 p-6 rounded-2xl shadow-lg mb-8 border border-gray-100 dark:border-slate-700">
-                    <h2 className="text-xl font-bold mb-4 text-gray-800 dark:text-white">Customize Your Feed</h2>
+                <div className="glass-panel p-6 rounded-2xl mb-8 border border-white/10">
+                    <h2 className="text-xl font-bold mb-4 text-white font-display">Customize Your Feed</h2>
 
                     <div className="mb-6">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Favorite Categories</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">Favorite Categories</label>
                         <div className="flex flex-wrap gap-2">
                             {categoriesList.map(cat => (
                                 <button
                                     key={cat}
                                     onClick={() => toggleCategory(cat)}
                                     className={`px-3 py-1 rounded-full text-sm capitalize transition-colors ${selectedCategories.includes(cat)
-                                        ? 'bg-yellow-500 text-white'
-                                        : 'bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200'
+                                        ? 'bg-yellow-500/20 text-yellow-200 border border-yellow-500/30 font-medium backdrop-blur-md'
+                                        : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white border border-white/5'
                                         }`}
                                 >
                                     {cat}
@@ -111,26 +111,26 @@ const ForYou = () => {
                     </div>
 
                     <div className="mb-6">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Keywords (comma separated)</label>
+                        <label className="block text-sm font-medium text-gray-300 mb-2">Keywords (comma separated)</label>
                         <input
                             type="text"
                             value={keywordsInput}
                             onChange={(e) => setKeywordsInput(e.target.value)}
                             placeholder="e.g. AI, Space, Crypto"
-                            className="w-full p-2 rounded-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-700 dark:text-white focus:ring-2 focus:ring-yellow-500 outline-none"
+                            className="w-full p-2 rounded-lg bg-white/5 border border-white/10 text-white focus:ring-2 focus:ring-yellow-500 outline-none placeholder-gray-500"
                         />
                     </div>
 
                     <div className="flex justify-end gap-3">
                         <button
                             onClick={() => setShowSettings(false)}
-                            className="px-4 py-2 text-gray-500 hover:text-gray-700 dark:text-gray-400"
+                            className="px-4 py-2 text-gray-400 hover:text-white transition-colors"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleSaveSettings}
-                            className="px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 font-medium"
+                            className="px-6 py-2 bg-yellow-500/20 text-yellow-200 border border-yellow-500/30 rounded-lg hover:bg-yellow-500/30 font-medium transition-all backdrop-blur-md"
                         >
                             Save Preferences
                         </button>

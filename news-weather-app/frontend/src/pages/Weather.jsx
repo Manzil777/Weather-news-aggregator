@@ -146,12 +146,12 @@ const Weather = () => {
                             placeholder="Search city..."
                             value={searchInput}
                             onChange={(e) => setSearchInput(e.target.value)}
-                            className="w-full bg-white border border-soft-gray rounded-full py-3 px-6 pl-12 text-primary-text focus:outline-none focus:border-yellow-accent text-lg shadow-sm"
+                            className="w-full bg-white/5 border border-white/10 rounded-full py-3 px-6 pl-12 text-white placeholder-gray-400 focus:outline-none focus:border-white/30 focus:bg-white/10 text-lg shadow-sm backdrop-blur-md transition-all"
                         />
-                        <MapPin className="absolute left-4 top-3.5 text-secondary-text" size={20} />
+                        <MapPin className="absolute left-4 top-3.5 text-gray-400" size={20} />
                         <button
                             type="submit"
-                            className="absolute right-2 top-2 bg-yellow-accent p-1.5 rounded-full text-black hover:bg-yellow-400 transition-colors"
+                            className="absolute right-2 top-2 bg-white/10 p-1.5 rounded-full text-white hover:bg-white/20 transition-colors border border-white/5"
                         >
                             <Search size={18} />
                         </button>
@@ -161,7 +161,7 @@ const Weather = () => {
                         <button
                             onClick={handleLocation}
                             disabled={isLocating}
-                            className={`flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-300 shadow-sm ${isLocating ? 'opacity-80 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
+                            className={`flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-200 border border-blue-500/30 rounded-full hover:bg-blue-500/30 transition-all duration-300 shadow-sm backdrop-blur-md ${isLocating ? 'opacity-80 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}
                         >
                             <Navigation size={16} className={isLocating ? 'animate-spin' : ''} />
                             {isLocating ? 'Locating...' : 'Use my location'}
@@ -169,9 +169,9 @@ const Weather = () => {
                         {current && (
                             <button
                                 onClick={handlePin}
-                                className={`flex items-center gap-2 px-4 py-2 bg-yellow-accent text-black rounded-full hover:bg-yellow-400 transition-all duration-300 shadow-sm ${isPinning ? 'scale-110' : 'hover:scale-105 active:scale-95'}`}
+                                className={`flex items-center gap-2 px-4 py-2 bg-yellow-500/20 text-yellow-200 border border-yellow-500/30 rounded-full hover:bg-yellow-500/30 transition-all duration-300 shadow-sm backdrop-blur-md ${isPinning ? 'scale-110' : 'hover:scale-105 active:scale-95'}`}
                             >
-                                <Star size={16} className={`transition-transform duration-300 ${isPinning ? 'rotate-180 fill-black' : ''}`} />
+                                <Star size={16} className={`transition-transform duration-300 ${isPinning ? 'rotate-180 fill-yellow-200' : ''}`} />
                                 Pin {current.name}
                             </button>
                         )}
@@ -184,12 +184,12 @@ const Weather = () => {
                             <div
                                 key={pin.id}
                                 onClick={() => loadWeather(pin.city)}
-                                className="flex items-center gap-2 bg-white border border-soft-gray px-3 py-1 rounded-full cursor-pointer hover:border-yellow-accent hover:shadow-md transition-all duration-300 shadow-sm group"
+                                className="flex items-center gap-2 bg-white/5 border border-white/10 px-3 py-1 rounded-full cursor-pointer hover:bg-white/10 hover:border-white/20 hover:shadow-lg transition-all duration-300 shadow-sm group backdrop-blur-md"
                             >
-                                <span className="text-sm font-medium text-primary-text">{pin.city}</span>
+                                <span className="text-sm font-medium text-white">{pin.city}</span>
                                 <button
                                     onClick={(e) => handleDeletePin(pin.id, e)}
-                                    className="text-secondary-text hover:text-red-500 transition-colors p-1 rounded-full hover:bg-red-50"
+                                    className="text-gray-400 hover:text-red-400 transition-colors p-1 rounded-full hover:bg-white/5"
                                 >
                                     <Trash2 size={14} className="group-hover:scale-110 transition-transform" />
                                 </button>
