@@ -26,7 +26,7 @@ A comprehensive web application that aggregates real-time news and weather updat
 
 ### Backend
 -   **Node.js** & **Express**
--   **SQLite** (with Sequelize ORM) for database
+-   **MongoDB** (with Sequelize ORM) for database
 -   **Google Generative AI** for content processing
 -   **Axios** for external API requests
 
