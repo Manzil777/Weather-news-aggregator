@@ -12,6 +12,7 @@ A comprehensive web application that aggregates real-time news and weather updat
 -   **Saved Articles**: Bookmark important news for later reading.
 -   **Responsive Design**: Built with a modern, mobile-first UI using Tailwind CSS.
 -   **Interactive Dashboard**: Visualizations and easy navigation.
+-   **For You Page**: Personalized news feed tailored to your interests.
 
 ##  Tech Stack
 
@@ -38,6 +39,10 @@ A comprehensive web application that aggregates real-time news and weather updat
 | Weather Forecast | Saved Articles |
 |------------------|----------------|
 | ![Weather](screenshots/weather.png) | ![Saved](screenshots/saved.png) |
+
+| For You Page |
+|--------------|
+| ![For You](screenshots/for_you.png) |
 
 ##  Installation
 
